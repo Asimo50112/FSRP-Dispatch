@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Dispatch Tracker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h2>Live Dispatch Tracker</h2>
+    
+    <div id="dispatchFormContainer">
+        <form id="dispatchForm">
+            <input type="text" id="unit" placeholder="Unit ID" required>
+            <input type="text" id="callType" placeholder="Call Type" required>
+            <input type="text" id="location" placeholder="Location" required>
+            <select id="status">
+                <option value="En Route">En Route</option>
+                <option value="On Scene">On Scene</option>
+                <option value="Cleared">Cleared</option>
+            </select>
+            <button type="submit">Submit Call</button>
+        </form>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Unit</th>
+                <th>Call Type</th>
+                <th>Location</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="dispatchTable"></tbody>
+    </table>
+    
+    <script>
+        let dispatchData = {};
+
+        function updateTable() {
+            let tableContent = '';
+            for (const unit in dispatchData) {
+                const dispatch = dispatchData[unit];
+                tableContent += `<tr><td>${dispatch.unit}</td><td>${dispatch.callType}</td><td>${dispatch.location}</td><td>${dispatch.status}</td></tr>`;
+            }
+            document.getElementById('dispatchTable').innerHTML = tableContent;
+        }
+
+        document.getElementById('dispatchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const dispatch = {
+                unit: document.getElementById('unit').value,
+                callType: document.getElementById('callType').value,
+                location: document.getElementById('location').value,
+                status: document.getElementById('status').value
+            };
+            dispatchData[dispatch.unit] = dispatch; // Overwrite existing entry for the unit
+            updateTable();
+            this.reset();
+        });
+    </script>
+</body>
+</html>
