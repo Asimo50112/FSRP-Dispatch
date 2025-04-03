@@ -18,12 +18,13 @@
     <div id="dispatchFormContainer">
         <form id="dispatchForm">
             <input type="text" id="unit" placeholder="Unit ID" required>
-            <input type="text" id="callType" placeholder="Call Type" required>
-            <input type="text" id="location" placeholder="Location" required>
+            <input type="text" id="callType" placeholder="Call Type">
+            <input type="text" id="location" placeholder="Location">
             <select id="status">
                 <option value="En Route">En Route</option>
                 <option value="On Scene">On Scene</option>
                 <option value="Cleared">Cleared</option>
+                <option value="Available">Available</option>
             </select>
             <button type="submit">Submit Call</button>
         </form>
@@ -57,8 +58,8 @@
             e.preventDefault();
             const dispatch = {
                 unit: document.getElementById('unit').value,
-                callType: document.getElementById('callType').value,
-                location: document.getElementById('location').value,
+                callType: document.getElementById('callType').value || 'N/A',
+                location: document.getElementById('location').value || 'N/A',
                 status: document.getElementById('status').value
             };
             dispatchData[dispatch.unit] = dispatch; // Overwrite existing entry for the unit
